@@ -42,7 +42,7 @@ class ChunkProvider:
         sns = {self.get_chunk_sign(x, y), self.get_chunk_sign(x + 800, y), self.get_chunk_sign(x, y + 800),
                self.get_chunk_sign(x + 800, y + 800)}
         return sns
-    def draw_point(self, rx, ry, leftx, lefty):
+    def draw_point(self, rx, ry, leftx, lefty, clr):
         x = rx - leftx
         y = ry - lefty
         cs = self.get_chunk_sign(rx, ry)
@@ -51,8 +51,8 @@ class ChunkProvider:
 
         pm = self.get_pixmap_chunk(cs)
         pen = QPen()
-        pen.setColor(self.color_provider.getColor())
-        pen.setWidth(3)
+        pen.setColor(clr)
+        pen.setWidth(6)
         qp = QPainter(pm)
         qp.setBrush(QBrush(QColor(255, 0, 0)))
         qp.setPen(pen)

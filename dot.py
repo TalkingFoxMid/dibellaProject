@@ -1,9 +1,10 @@
 class Dot:
-    def __init__(self,x , y):
+    def __init__(self,x , y, color):
         self.x = x
         self.y = y
         self.setRemoveFlag = False
         self.inv = 1
+        self.color = color
         self.inv_cooldown = 0
     def invert(self):
         if self.inv_cooldown == 0:
@@ -13,5 +14,5 @@ class Dot:
     def tick(self):
         pass
     def force(self, x, y):
-        self.x += x*self.inv*5
-        self.y += y*self.inv*5
+        self.x += x*self.inv*2
+        self.y += y*self.inv*2

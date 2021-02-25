@@ -7,6 +7,6 @@ class Difura():
         x -= 0
         y /= 20
         x /= -20
-        top_quot = x
-        bot_quot = y
-        return math.atan2(bot_quot, -top_quot)
+        top_quot = y
+        bot_quot = x
+        return math.atan2(bot_quot, -top_quot)+math.pi/2

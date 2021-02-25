@@ -24,10 +24,11 @@ class TheState:
     def get_dots(self):
         if (len(self.dots) > 1000):
             self.dots = self.dots[100:]
+        print(len(self.dots))
         return self.dots
-    def add_dot_inv(self, x, y):
-        dot = Dot(x, y)
+    def add_dot_inv(self, x, y, clr):
+        dot = Dot(x, y,clr)
         dot.invert()
         self.dots.append(dot)
-    def add_dot(self, x, y):
-        self.dots.append(Dot(x, y))
+    def add_dot(self, x, y,clr):
+        self.dots.append(Dot(x, y,clr))

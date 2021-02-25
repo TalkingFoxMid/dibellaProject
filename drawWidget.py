@@ -1,3 +1,5 @@
+import math
+
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QBrush, QColor, QWheelEvent, QMouseEvent
 from PyQt5.QtWidgets import QLabel
@@ -24,11 +26,13 @@ class DrawWidget(QLabel):
         self.pixmap().fill(QColor(255,255,255))
         self.timer = QTimer()
         self.timer.timeout.connect(self.tick)
-        self.timer.start(40)
+        self.timer.start(20)
         self.color_provider = ColorProvider()
         self.state = TheState()
+        self.counter = 0
 
     def tick(self):
+        self.counter += 1
         self.state.set_center(self.center_x,
                               self.center_y)
         self.paintDots()
@@ -41,19 +45,21 @@ class DrawWidget(QLabel):
         real_y = e.y() + self.center_y - 400
         x = e.pos().x()
         y = e.pos().y()
+        dx = self.lastx - x
+        dy = self.lasty - y
         if self.mouse_type == 1:
-            self.state.add_dot(real_x, real_y)
-            self.state.add_dot_inv(real_x, real_y)
+            clr = self.color_provider.getColor()
+            self.state.add_dot(real_x, real_y, clr)
+            self.state.add_dot_inv(real_x, real_y, clr)
         else:
-            dx = self.lastx - x
-            dy = self.lasty - y
+
 
             if abs(dx) < 30 and abs(dy) < 30:
                 print(dx, dy)
                 self.center_x += dx/2
                 self.center_y += dy/2
-            self.lasty = y
-            self.lastx = x
+        self.lasty = y
+        self.lastx = x
 
     def wheelEvent(self, a0: QWheelEvent) -> None:
 
@@ -62,7 +68,7 @@ class DrawWidget(QLabel):
 
 
         for i in self.state.get_dots():
-            self.cp.draw_point(i.x, i.y, self.center_x-400,self.center_y-400)
+            self.cp.draw_point(i.x, i.y, self.center_x-400,self.center_y-400, i.color)
 
         self.cp.draw_chunks(self.pixmap(), self.center_x-400,self.center_y-400, self.zoom)
         self.update()
